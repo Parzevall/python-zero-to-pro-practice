@@ -21,10 +21,17 @@ def _exec_solution(source: str, entry: str):
     the value itself. Either way the source actually runs, so a solution that
     does not execute cannot ship.
     """
-    # Register the source with linecache so inspect.getsource() can find it, the
-    # way IPython registers a notebook cell. Without this every `custom` question
-    # fails: check_constraints() reads the AST from the function's source, and an
-    # exec'd function has none on disk.
+    # Do not delete: this is what makes `custom` questions testable at all.
+    #
+    # IPython registers each cell's source in linecache, and that is the only
+    # reason inspect.getsource() works for a function a learner defines in a
+    # notebook cell - which is what check_constraints() needs to read the AST.
+    # An exec'd function has no source on disk, so without this seeding
+    # inspect raises OSError, check_constraints() reports "could not read
+    # source", and every custom question fails here no matter how it is
+    # written. Seeding linecache under the same filename we compile with
+    # reproduces the notebook faithfully, so constraints are enforced on
+    # reference solutions exactly as they are on a learner's answer.
     linecache.cache[SOLUTION_FILE] = (
         len(source), None, source.splitlines(keepends=True), SOLUTION_FILE,
     )
