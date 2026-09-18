@@ -60,7 +60,17 @@ def run_question(question: Question, submission: Any) -> Result:
             else:
                 got = submission(*case.args, **case.kwargs)
         except Exception as exc:  # learner code, not ours
-            failures.append(format_error(call, exc))
+            if case.raises is not None and isinstance(exc, case.raises):
+                n_passed += 1
+            else:
+                failures.append(format_error(call, exc))
+            continue
+
+        if case.raises is not None:
+            failures.append(
+                f"  {call}\n    expected  {case.raises.__name__} to be raised"
+                f"\n    got       {got!r}"
+            )
             continue
 
         if question.kind in {"output", "predict"}:

@@ -34,11 +34,16 @@ class Case:
     function/custom: call entry(*args, **kwargs), compare result to expected.
     output:          call entry(*args, **kwargs), compare captured stdout.
     value/predict:   args/kwargs unused; expected is the sole right answer.
+
+    Set `raises` to require the call to raise that exception type; `expected` is
+    then ignored. Needed because "reject bad input" is half of many questions,
+    and a question that cannot test its rejection path only tests half itself.
     """
 
     expected: Any
     args: tuple = ()
     kwargs: dict = field(default_factory=dict)
+    raises: type[BaseException] | None = None
 
     def call_repr(self, entry: str) -> str:
         parts = [repr(a) for a in self.args]

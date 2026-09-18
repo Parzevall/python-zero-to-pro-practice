@@ -1,5 +1,7 @@
 """Notebook 01 - Foundations & Operators (Q-001..Q-036)."""
 
+import sys
+
 from content.schema import Case, Level, Notebook, Project, Question
 
 QUESTIONS: list[Question] = []
@@ -372,7 +374,8 @@ q(
         "build date, and should never be parsed."
     ),
     starter="import sys\n\n\ndef show_version():\n    ...",
-    cases=[Case(expected="3.13")],
+    # Derived, not hard-coded: a Python upgrade must not turn this red.
+    cases=[Case(expected=f"{sys.version_info.major}.{sys.version_info.minor}")],
 )
 
 # ---------------------------------------------------------------- L2 ----
@@ -1116,7 +1119,7 @@ q(
         "`float` otherwise.\n\n"
         "Raise `ValueError` for everything else — including `\"\"`, `\"True\"`, "
         "`\"abc\"`, and also `\"nan\"` and `\"inf\"`.\n\n"
-        "Note: `check()` can only exercise the values that parse; it cannot assert "
+        "Note: `check()` tests both the values that parse and the ones that must "
         "that something raises. Try `to_number(\"nan\")` in a cell yourself."
     ),
     hint=(
@@ -1154,6 +1157,11 @@ q(
         Case(expected=3.5, args=("3.5",)),
         Case(expected=1000.0, args=("1e3",)),
         Case(expected=0, args=("0",)),
+        # The rejection path is half the question - now actually tested.
+        Case(expected=None, args=("",), raises=ValueError),
+        Case(expected=None, args=("True",), raises=ValueError),
+        Case(expected=None, args=("nan",), raises=ValueError),
+        Case(expected=None, args=("twelve",), raises=ValueError),
     ],
 )
 
@@ -1161,8 +1169,9 @@ q(
     qid="Q-033",
     level=Level.L4,
     topic="Arithmetic",
-    kind="function",
+    kind="custom",
     entry="divide",
+    constraints=["no-builtin:divmod"],
     prompt=(
         "Write `divide(a, b)` returning the tuple `(quotient, remainder)` for "
         "integers `a` and `b`, matching what `divmod(a, b)` gives — including every "
@@ -1301,8 +1310,9 @@ q(
     qid="Q-036",
     level=Level.L5,
     topic="Arithmetic",
-    kind="function",
+    kind="custom",
     entry="py_round",
+    constraints=["no-builtin:round"],
     prompt=(
         "Reimplement the builtin: `py_round(x, ndigits=0)` must agree with "
         "`round(x, ndigits)` on every input, including the ties.\n\n"

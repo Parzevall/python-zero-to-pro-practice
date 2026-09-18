@@ -70,3 +70,24 @@ def test_custom_kind_fails_when_constraint_violated_even_if_output_correct():
     result = run_question(q, looped)
     assert not result.passed
     assert any("for/while" in f for f in result.failures)
+
+
+def test_raises_case_passes_when_the_expected_exception_is_raised():
+    q = make("function", [Case(expected=1, args=("1",)),
+                          Case(expected=None, args=("x",), raises=ValueError),
+                          Case(expected=2, args=("2",))], entry="parse")
+    assert run_question(q, lambda t: int(t)).passed
+
+
+def test_raises_case_fails_when_nothing_is_raised():
+    q = make("function", [Case(expected=None, args=("x",), raises=ValueError)], entry="parse")
+    result = run_question(q, lambda t: 0)
+    assert not result.passed
+    assert "ValueError to be raised" in result.failures[0]
+
+
+def test_raises_case_fails_on_the_wrong_exception_type():
+    q = make("function", [Case(expected=None, args=("x",), raises=ValueError)], entry="parse")
+    result = run_question(q, lambda t: 1 / 0)
+    assert not result.passed
+    assert "ZeroDivisionError" in result.failures[0]
