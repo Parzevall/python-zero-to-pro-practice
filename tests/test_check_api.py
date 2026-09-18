@@ -91,3 +91,18 @@ def test_raises_case_fails_on_the_wrong_exception_type():
     result = run_question(q, lambda t: 1 / 0)
     assert not result.passed
     assert "ZeroDivisionError" in result.failures[0]
+
+
+def test_a_mutating_solution_does_not_corrupt_the_stored_case():
+    """check() twice on the same answer must grade identically."""
+    q = make("function", [Case(expected=[1, 2, 3], args=([3, 1, 2],)),
+                          Case(expected=[], args=([],)),
+                          Case(expected=[5], args=([5],))], entry="sort_in_place")
+
+    def sort_in_place(xs):
+        xs.sort()
+        return xs
+
+    assert run_question(q, sort_in_place).passed
+    assert run_question(q, sort_in_place).passed          # second run
+    assert q.cases[0].args == ([3, 1, 2],), "stored case was mutated"

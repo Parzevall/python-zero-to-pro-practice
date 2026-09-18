@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import contextlib
+import copy
 import io
 import time
 from dataclasses import dataclass, field
@@ -48,6 +49,11 @@ def run_question(question: Question, submission: Any) -> Result:
     n_passed = 0
     for case in question.cases:
         call = case.call_repr(question.entry or "answer")
+        # Fresh copies every run. A solution that mutates its argument would
+        # otherwise rewrite the stored case, so calling check() twice on the
+        # same answer could grade the second run against corrupted input.
+        args = copy.deepcopy(case.args)
+        kwargs = copy.deepcopy(case.kwargs)
         try:
             if question.kind in {"value", "predict"}:
                 got = submission
@@ -55,10 +61,10 @@ def run_question(question: Question, submission: Any) -> Result:
             elif question.kind == "output":
                 buffer = io.StringIO()
                 with contextlib.redirect_stdout(buffer):
-                    submission(*case.args, **case.kwargs)
+                    submission(*args, **kwargs)
                 got = buffer.getvalue()
             else:
-                got = submission(*case.args, **case.kwargs)
+                got = submission(*args, **kwargs)
         except Exception as exc:  # learner code, not ours
             if case.raises is not None and isinstance(exc, case.raises):
                 n_passed += 1
