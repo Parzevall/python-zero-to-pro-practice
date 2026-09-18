@@ -44,14 +44,19 @@ library — numpy/pandas are not used, because the objective is core Python.
 
 Notebooks are generated, not hand-authored. Each question is one `Question`
 object holding prompt, level, topic, starter code, hint, solution, explanation,
-and test cases together. `build.py` projects that object into two artifacts:
+and test cases together. `build.py` renders that object into the notebook, and `sprintcheck` reads the
+same object directly at runtime:
 
 ```
-content/nb07_comprehensions.py
+content/nb07_comprehensions.py   <-- ONE Question object
         |
-        +-- build.py --> notebooks/07_comprehensions.ipynb   (the learner opens this)
-        +-- build.py --> sprintcheck/registry.py             (check() reads this)
+        +-- build.py ------------> notebooks/07_comprehensions.ipynb  (learner opens)
+        +-- sprintcheck.registry -> imports content/ live at check() time
 ```
+
+`registry.py` imports the content modules rather than being code-generated from
+them. Generating a third artifact would add a drift class the design exists to
+eliminate, and the content package ships in the repo regardless.
 
 **Rationale:** at 400 questions, hand-authored notebook JSON would let the
 solution, the hint and the test cases drift apart silently. Because both
@@ -83,7 +88,7 @@ pythonsprints/
 |-- sprintcheck/
 |   |-- __init__.py           public API: check(), progress(), reset()
 |   |-- runner.py             case execution, diffing, formatting
-|   |-- registry.py           GENERATED - qid -> cases
+|   |-- registry.py           lazily imports content/ -> qid -> Question
 |   |-- inspect_source.py     AST helpers for `custom` constraint cases
 |-- notebooks/                GENERATED ONCE - the learner works here
 |   |-- 01_foundations_and_operators.ipynb
@@ -288,9 +293,10 @@ Additional to the 400:
 `tests/` runs under pytest against the content source, not the notebooks.
 
 - `test_content_integrity.py` - every `Question` has all required fields
-  non-empty; IDs are unique and exactly contiguous `Q-001`..`Q-400`; every
-  question has at least 3 test cases; hint and solution are non-empty and
-  distinct.
+  non-empty; IDs are unique and exactly contiguous `Q-001`..`Q-400`; hint and
+  solution are non-empty and distinct. Case-count floor by kind: `function`,
+  `output` and `custom` require at least 3 cases; `value` and `predict` are
+  single-answer by nature and require exactly 1.
 - `test_solutions_pass.py` - **executes every reference solution against its own
   cases and asserts a pass.** This is the core guarantee.
 - `test_coverage.py` - the per-notebook difficulty distribution in section 5.1
