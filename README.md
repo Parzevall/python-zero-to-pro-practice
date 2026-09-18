@@ -58,3 +58,20 @@ overwrite a notebook you have answered questions in unless you pass `--force`.
 python build.py                 # generate any missing notebooks
 python -m pytest -q             # prove every solution passes its own cases
 ```
+
+## Progress
+
+| Notebook | Questions | Status |
+|---|---|---|
+| 01 Foundations & Operators | 36 | ready |
+| 02 Strings | 38 | ready |
+| 03 Lists & Tuples | 38 | ready |
+| 04 Dicts & Sets | 38 | ready |
+| 05-10 | 214 | not yet authored |
+
+**To resume:** notebooks 05-10 are fully specified in
+`docs/superpowers/plans/2026-09-18-pythonsprints.md` — see the "Task 10" table,
+which fixes each remaining notebook's slug, title, question-ID block, exact
+L1-L5 counts and mini-project. Author `content/nbNN_<slug>.py` following
+`content/nb01_foundations.py` as the template, run `python -m pytest -q`, then
+`python build.py`.
