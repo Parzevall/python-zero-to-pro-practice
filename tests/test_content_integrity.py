@@ -42,7 +42,12 @@ def test_case_count_floor_by_kind():
 def test_no_question_repeats_a_case():
     """Three copies of one case satisfies a floor without adding coverage."""
     for q in all_questions():
-        seen = [(c.args, tuple(sorted(c.kwargs.items())), repr(c.expected)) for c in q.cases]
+        # repr, not the values: args and kwargs legitimately hold lists and dicts,
+        # which are unhashable and so cannot go into a set directly.
+        seen = [
+            (repr(c.args), repr(sorted(c.kwargs.items())), repr(c.expected))
+            for c in q.cases
+        ]
         assert len(seen) == len(set(seen)), f"{q.qid}: duplicate case - pad with real ones"
 
 

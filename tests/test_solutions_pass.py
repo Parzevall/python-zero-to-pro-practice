@@ -4,10 +4,14 @@ If this file is green, all shipped solutions are correct. This is what makes
 400 questions trustworthy without hand-verifying them.
 """
 
+import linecache
+
 import pytest
 
 from content import all_notebooks
 from sprintcheck import run_question
+
+SOLUTION_FILE = "<solution>"
 
 
 def _exec_solution(source: str, entry: str):
@@ -17,8 +21,15 @@ def _exec_solution(source: str, entry: str):
     the value itself. Either way the source actually runs, so a solution that
     does not execute cannot ship.
     """
+    # Register the source with linecache so inspect.getsource() can find it, the
+    # way IPython registers a notebook cell. Without this every `custom` question
+    # fails: check_constraints() reads the AST from the function's source, and an
+    # exec'd function has none on disk.
+    linecache.cache[SOLUTION_FILE] = (
+        len(source), None, source.splitlines(keepends=True), SOLUTION_FILE,
+    )
     namespace: dict = {}
-    exec(compile(source, "<solution>", "exec"), namespace)
+    exec(compile(source, SOLUTION_FILE, "exec"), namespace)
     if entry not in namespace:
         raise AssertionError(f"solution does not define {entry!r}")
     return namespace[entry]
