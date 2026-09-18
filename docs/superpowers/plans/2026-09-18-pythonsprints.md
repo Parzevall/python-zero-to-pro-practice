@@ -93,7 +93,7 @@ import pytest
 from content import all_notebooks
 
 QID_RE = re.compile(r"^Q-\d{3}$")
-MIN_CASES = {"function": 3, "output": 3, "custom": 3, "value": 1, "predict": 1}
+MIN_CASES = {"function": 3, "custom": 3, "output": 1, "value": 1, "predict": 1}
 
 
 def all_questions():
@@ -127,6 +127,13 @@ def test_case_count_floor_by_kind():
     for q in all_questions():
         floor = MIN_CASES[q.kind]
         assert len(q.cases) >= floor, f"{q.qid} ({q.kind}): {len(q.cases)} cases, need {floor}"
+
+
+def test_no_question_repeats_a_case():
+    """Three copies of one case satisfies a floor without adding coverage."""
+    for q in all_questions():
+        seen = [(c.args, tuple(sorted(c.kwargs.items())), repr(c.expected)) for c in q.cases]
+        assert len(seen) == len(set(seen)), f"{q.qid}: duplicate case - pad with real ones"
 
 
 def test_every_question_declares_an_entry_point():
@@ -1298,7 +1305,7 @@ EXPECTED_DISTRIBUTION = {
 
 # spec section 4 - minimum questions tagged with each P0 topic
 TOPIC_QUOTAS = {
-    1: {"Variables": 3, "Primitive Types": 2, "Casting": 3, "Arithmetic": 4,
+    1: {"Variables": 2, "Primitive Types": 2, "Casting": 3, "Arithmetic": 4,
         "Comparison": 2, "Logical": 2, "Identity": 1, "Membership": 2,
         "Environment": 2, "Dynamic Typing": 2},
 }
@@ -1448,7 +1455,7 @@ Expected: PASS. `test_at_least_one_notebook_exists` will still fail until Step 4
 
 Follow the roster table. Each `q(...)` call must supply every field shown in Q-001. Rules that apply to all of them:
 
-- `function`/`output`/`custom` questions need **at least 3 cases**, and the cases must include the boring case *and* at least one edge case (empty input, zero, negative, or a type boundary).
+- `function`/`custom` questions need **at least 3 cases**, including the boring case *and* at least one edge case (empty input, zero, negative, or a type boundary). `output`/`value`/`predict` need at least 1. No question may repeat an identical case to pad a floor.
 - `explanation` states *why*, never restates the code. One to three sentences.
 - `hint` points at the concept; it must never contain the answer expression.
 - `starter` gives the signature with an `...` body so the learner has somewhere to type.
@@ -1479,7 +1486,7 @@ q(
         "should never be parsed."
     ),
     starter="import sys\n\n\ndef show_version():\n    ...",
-    cases=[Case(expected="3.13"), Case(expected="3.13"), Case(expected="3.13")],
+    cases=[Case(expected="3.13")],
 )
 ```
 
@@ -1856,7 +1863,7 @@ Add a `TOPIC_QUOTAS[NN]` dict naming every P0 topic for this notebook with its m
 
 - [ ] **Step 3: Write `content/nbNN_<slug>.py`**
 
-Same structure as `nb01_foundations.py`: module docstring, `QUESTIONS` list, `q()` helper, one `q(...)` call per roster row, then `PROJECT`, then `NOTEBOOK`. Every question needs prompt, hint, solution, explanation, starter and cases. `function`/`output`/`custom` need at least 3 cases including an edge case; `value`/`predict` need exactly 1.
+Same structure as `nb01_foundations.py`: module docstring, `QUESTIONS` list, `q()` helper, one `q(...)` call per roster row, then `PROJECT`, then `NOTEBOOK`. Every question needs prompt, hint, solution, explanation, starter and cases. `function`/`custom` need at least 3 cases including an edge case; `output`/`value`/`predict` need at least 1. Never repeat an identical case to pad a floor.
 
 - [ ] **Step 4: Run the suite**
 

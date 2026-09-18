@@ -294,9 +294,10 @@ Additional to the 400:
 
 - `test_content_integrity.py` - every `Question` has all required fields
   non-empty; IDs are unique and exactly contiguous `Q-001`..`Q-400`; hint and
-  solution are non-empty and distinct. Case-count floor by kind: `function`,
-  `output` and `custom` require at least 3 cases; `value` and `predict` are
-  single-answer by nature and require exactly 1.
+  solution are non-empty and distinct. Case-count floor by kind: `function` and
+  `custom` require at least 3 cases; `output`, `value` and `predict` are
+  single-answer by nature and require at least 1. No question may contain two
+  identical cases - padding a floor with repeats adds no coverage.
 - `test_solutions_pass.py` - **executes every reference solution against its own
   cases and asserts a pass.** This is the core guarantee.
 - `test_coverage.py` - the per-notebook difficulty distribution in section 5.1
