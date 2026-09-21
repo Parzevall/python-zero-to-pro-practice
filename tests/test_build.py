@@ -21,9 +21,11 @@ def test_render_produces_a_valid_notebook():
     nbformat.validate(nb)
 
 
-def test_kernel_is_the_ds_kernel():
+def test_kernel_is_the_portable_default():
+    """Every Jupyter install provides "python3"; a custom kernel name would
+    make these notebooks fail to open on anyone else's machine."""
     nb = render(sample_notebook())
-    assert nb.metadata.kernelspec.name == "ds"
+    assert nb.metadata.kernelspec.name == "python3"
 
 
 def test_question_header_uses_the_exact_label_format():

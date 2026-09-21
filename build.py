@@ -20,15 +20,38 @@ from content.schema import LEVEL_LABELS, Notebook, Project, Question
 ROOT = Path(__file__).resolve().parent
 NOTEBOOK_DIR = ROOT / "notebooks"
 
-KERNELSPEC = {"display_name": "Python 3.13 (ds)", "language": "python", "name": "ds"}
+# "python3" is the kernel name every Jupyter install provides, so these
+# notebooks open on any machine without registering a custom kernel.
+KERNELSPEC = {"display_name": "Python 3", "language": "python", "name": "python3"}
 
-BOOTSTRAP = '''\
-# Run me first. Adds the repo to the path if the editable install is missing.
-import sys, pathlib
-if not any(pathlib.Path(p).name == "pythonsprints" for p in sys.path):
-    sys.path.insert(0, str(pathlib.Path.cwd().parent))
-from sprintcheck import check, progress, reset
-print("sprintcheck ready - solve a question, then call check('Q-001', your_answer)")'''
+BOOTSTRAP = """\
+# Run this cell first.
+# Finds the repo root by walking up from wherever Jupyter was started, so this
+# works whether you launched from the project root, from notebooks/, or
+# installed the package with `pip install -e .`
+import pathlib
+import sys
+
+if "sprintcheck" not in sys.modules:
+    here = pathlib.Path.cwd().resolve()
+    for folder in (here, *here.parents):
+        if (folder / "sprintcheck" / "__init__.py").exists():
+            sys.path.insert(0, str(folder))
+            break
+
+try:
+    from sprintcheck import check, progress, reset
+except ModuleNotFoundError:
+    raise SystemExit(
+        "Could not find the sprintcheck package.\\n"
+        "Open this notebook from inside the cloned repository, or run\\n"
+        "    pip install -e .\\n"
+        "from the project root and restart the kernel."
+    )
+
+print("Ready. Solve a question, then run check('Q-001', your_answer).")
+print("Call progress() any time to see how far you have got.")
+"""
 
 LEGEND = """\
 **How to use this notebook**
