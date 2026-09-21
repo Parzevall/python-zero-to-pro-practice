@@ -26,10 +26,20 @@ def _has(tree: ast.AST, node_types) -> bool:
 
 
 def _calls_name(tree: ast.AST, name: str) -> bool:
+    """True if `name` is called, bare (`sum(...)`) or dotted (`math.sum(...)`).
+
+    The dotted form matters: forbidding `lru_cache` is pointless if
+    `functools.lru_cache(...)` slips through, and a learner reaching for the
+    dotted spelling is doing exactly what the question forbids.
+    """
     for node in ast.walk(tree):
-        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
-            if node.func.id == name:
-                return True
+        if not isinstance(node, ast.Call):
+            continue
+        func = node.func
+        if isinstance(func, ast.Name) and func.id == name:
+            return True
+        if isinstance(func, ast.Attribute) and func.attr == name:
+            return True
     return False
 
 

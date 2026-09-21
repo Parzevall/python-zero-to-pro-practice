@@ -64,3 +64,14 @@ def test_unreadable_source_is_reported_not_crashed():
 def test_no_recursion_rejects_a_self_call_and_accepts_a_loop():
     assert check_constraints(recursive, ["no-recursion"])
     assert check_constraints(looped, ["no-recursion"]) == []
+
+
+def test_no_builtin_also_catches_the_dotted_form():
+    """Forbidding `lru_cache` is pointless if `functools.lru_cache` escapes."""
+    import functools
+
+    def dotted(n):
+        return functools.reduce(lambda a, b: a + b, range(n), 0)
+
+    assert check_constraints(dotted, ["no-builtin:reduce"])
+    assert check_constraints(dotted, ["no-builtin:sum"]) == []
