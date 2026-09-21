@@ -61,17 +61,21 @@ python -m pytest -q             # prove every solution passes its own cases
 
 ## Progress
 
-| Notebook | Questions | Status |
-|---|---|---|
-| 01 Foundations & Operators | 36 | ready |
-| 02 Strings | 38 | ready |
-| 03 Lists & Tuples | 38 | ready |
-| 04 Dicts & Sets | 38 | ready |
-| 05-10 | 214 | not yet authored |
+All 10 notebooks complete — 400 questions, 10 mini-projects.
 
-**To resume:** notebooks 05-10 are fully specified in
-`docs/superpowers/plans/2026-09-18-pythonsprints.md` — see the "Task 10" table,
-which fixes each remaining notebook's slug, title, question-ID block, exact
-L1-L5 counts and mini-project. Author `content/nbNN_<slug>.py` following
-`content/nb01_foundations.py` as the template, run `python -m pytest -q`, then
-`python build.py`.
+| Notebook | Qs | Focus |
+|---|---|---|
+| 01 Foundations & Operators | 36 | types, casting, all five operator families |
+| 02 Strings | 38 | indexing, slicing, f-strings, methods |
+| 03 Lists & Tuples | 38 | mutability, copying, unpacking |
+| 04 Dicts & Sets | 38 | dict methods, set algebra, hashability |
+| 05 Control Flow & Loops | 36 | incl. 6 questions on `else`-on-loop |
+| 06 Functions, Scope & Closures | 42 | args, defaults, LEGB, closures |
+| 07 Comprehensions, Functional & Recursion | 42 | incl. 12 recursion questions |
+| 08 OOP | 44 | dunder methods, properties, inheritance |
+| 09 Iterators, Generators, Decorators, Context Managers & Exceptions | 44 | the hard middle of the language |
+| 10 Stdlib, Regex, Typing, Concurrency, Testing & Debugging | 42 | the practical layer |
+
+58 of them are "what does this print?" gotchas and 68 carry enforced constraints
+("solve it without a loop", "make it recursive") checked against your code's AST,
+not the honour system.

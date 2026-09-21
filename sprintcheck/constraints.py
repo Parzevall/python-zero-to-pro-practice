@@ -61,6 +61,8 @@ def check_constraints(func: Callable, rules: list[str]) -> list[str]:
             violations.append("uses a for/while statement - solve it without one")
         elif name == "needs-comprehension" and not _has(tree, COMP_NODES):
             violations.append("no comprehension found - the answer should use one")
+        elif name == "no-recursion" and _calls_name(tree, func_name):
+            violations.append(f"{func_name} calls itself - solve it iteratively, without recursion")
         elif name == "needs-recursion" and not _calls_name(tree, func_name):
             violations.append(f"{func_name} never calls itself - make it recursive")
         elif name == "needs-generator" and not _has(tree, (ast.Yield, ast.YieldFrom)):

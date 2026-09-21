@@ -56,3 +56,31 @@ def test_every_question_declares_an_entry_point():
     # name up, and build.py renders it into the check() call.
     for q in all_questions():
         assert q.entry, f"{q.qid}: needs entry (the function or variable name)"
+
+
+def test_no_starter_shadows_the_grader_at_module_level():
+    """A module-level `def check(...)` in a starter silently replaces the
+    grader for every cell below it, so later questions fail with a nonsense
+    error even when the answer is right. Nested defs and methods are fine."""
+    import ast
+
+    from content import all_notebooks
+
+    reserved = {"check", "progress", "reset"}
+    clashes = []
+    for nb in all_notebooks():
+        for item in list(nb.questions) + ([nb.project] if nb.project else []):
+            qid = getattr(item, "qid", None) or item.pid
+            for label in ("starter", "solution"):
+                source = getattr(item, label, "")
+                if not source.strip():
+                    continue
+                for node in ast.parse(source).body:          # top level only
+                    name = getattr(node, "name", None)
+                    if name in reserved:
+                        clashes.append(f"{qid} {label}: defines {name}()")
+                    if isinstance(node, ast.Assign):
+                        for t in node.targets:
+                            if isinstance(t, ast.Name) and t.id in reserved:
+                                clashes.append(f"{qid} {label}: assigns {t.id}")
+    assert not clashes, "grader names shadowed: " + "; ".join(clashes)

@@ -59,3 +59,8 @@ def test_max_lines():
 def test_unreadable_source_is_reported_not_crashed():
     violations = check_constraints(len, ["no-loops"])
     assert violations and "source" in violations[0].lower()
+
+
+def test_no_recursion_rejects_a_self_call_and_accepts_a_loop():
+    assert check_constraints(recursive, ["no-recursion"])
+    assert check_constraints(looped, ["no-recursion"]) == []
