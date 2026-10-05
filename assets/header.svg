@@ -1,20 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 458" width="1200" height="458" role="img" aria-label="934 Python practice questions across 27 notebooks in three tiers. Each dot is one question, shaded from dim for easy to bright for hard.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 458" width="1200" height="458" role="img" aria-label="1024 Python practice questions across 30 notebooks in three tiers. Each dot is one question, shaded from dim for easy to bright for hard.">
 <defs><linearGradient id="bg" x1="0" y1="0" x2="0.65" y2="1"><stop offset="0%" stop-color="#090d13"/><stop offset="100%" stop-color="#131c2a"/></linearGradient><linearGradient id="rule" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1c3a5e"/><stop offset="100%" stop-color="#cae8ff"/></linearGradient></defs>
 <rect width="1200" height="458" fill="url(#bg)"/>
 <rect x="0" y="0" width="4" height="458" fill="#2f81f7"/>
 <text x="70" y="64" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" letter-spacing="5.5" fill="#6cb6ff">PYTHON · ZERO TO PRO</text>
 <text x="70" y="116" font-family="Georgia,'Times New Roman',serif" font-size="44" font-weight="700" fill="#f0f6fc">From your first print() to asyncio.</text>
-<text x="70" y="148" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="16" fill="#8b949e">934 questions in 27 notebooks. Every dot is one question, and every solution is run and checked.</text>
+<text x="70" y="148" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="16" fill="#8b949e">1024 questions in 30 notebooks. Every dot is one question, and every solution is run and checked.</text>
 <circle cx="75" cy="180" r="5" fill="#1c3a5e"/>
-<text x="86" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L1 Extremely Easy · 148</text>
+<text x="86" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L1 Extremely Easy · 157</text>
 <circle cx="291" cy="180" r="5" fill="#1f5fa9"/>
-<text x="302" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L2 Easy · 214</text>
+<text x="302" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L2 Easy · 233</text>
 <circle cx="507" cy="180" r="5" fill="#2f81f7"/>
-<text x="518" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L3 Intermediate · 271</text>
+<text x="518" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L3 Intermediate · 298</text>
 <circle cx="723" cy="180" r="5" fill="#6cb6ff"/>
-<text x="734" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L4 Somewhat Difficult · 194</text>
+<text x="734" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L4 Somewhat Difficult · 217</text>
 <circle cx="939" cy="180" r="5" fill="#cae8ff"/>
-<text x="950" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L5 Hard · 107</text>
+<text x="950" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L5 Hard · 119</text>
 <text x="70" y="214" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" letter-spacing="1.8" fill="#6e7681">BEGINNER/ · 306</text>
 <text x="70" y="235.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB00</text>
 <circle cx="104.0" cy="232.0" r="2.3" fill="#1c3a5e"/>
@@ -776,7 +776,7 @@
 <circle cx="607.4" cy="402.5" r="2.3" fill="#cae8ff"/>
 <circle cx="614.0" cy="402.5" r="2.3" fill="#cae8ff"/>
 <circle cx="620.6" cy="402.5" r="2.3" fill="#cae8ff"/>
-<text x="826" y="214" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" letter-spacing="1.8" fill="#6e7681">ADVANCED/ · 196</text>
+<text x="826" y="214" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" letter-spacing="1.8" fill="#6e7681">ADVANCED/ · 286</text>
 <text x="826" y="235.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB21</text>
 <circle cx="860.0" cy="232.0" r="2.3" fill="#1c3a5e"/>
 <circle cx="866.6" cy="232.0" r="2.3" fill="#1c3a5e"/>
@@ -820,7 +820,7 @@
 <circle cx="1117.4" cy="232.0" r="2.3" fill="#cae8ff"/>
 <circle cx="1124.0" cy="232.0" r="2.3" fill="#cae8ff"/>
 <circle cx="1130.6" cy="232.0" r="2.3" fill="#cae8ff"/>
-<text x="826" y="251.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB23</text>
+<text x="826" y="251.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB22</text>
 <circle cx="860.0" cy="247.5" r="2.3" fill="#1c3a5e"/>
 <circle cx="866.6" cy="247.5" r="2.3" fill="#1c3a5e"/>
 <circle cx="873.2" cy="247.5" r="2.3" fill="#1c3a5e"/>
@@ -832,7 +832,7 @@
 <circle cx="912.8" cy="247.5" r="2.3" fill="#1f5fa9"/>
 <circle cx="919.4" cy="247.5" r="2.3" fill="#1f5fa9"/>
 <circle cx="926.0" cy="247.5" r="2.3" fill="#1f5fa9"/>
-<circle cx="932.6" cy="247.5" r="2.3" fill="#2f81f7"/>
+<circle cx="932.6" cy="247.5" r="2.3" fill="#1f5fa9"/>
 <circle cx="939.2" cy="247.5" r="2.3" fill="#2f81f7"/>
 <circle cx="945.8" cy="247.5" r="2.3" fill="#2f81f7"/>
 <circle cx="952.4" cy="247.5" r="2.3" fill="#2f81f7"/>
@@ -843,7 +843,7 @@
 <circle cx="985.4" cy="247.5" r="2.3" fill="#2f81f7"/>
 <circle cx="992.0" cy="247.5" r="2.3" fill="#2f81f7"/>
 <circle cx="998.6" cy="247.5" r="2.3" fill="#2f81f7"/>
-<circle cx="1005.2" cy="247.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="1005.2" cy="247.5" r="2.3" fill="#2f81f7"/>
 <circle cx="1011.8" cy="247.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="1018.4" cy="247.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="1025.0" cy="247.5" r="2.3" fill="#6cb6ff"/>
@@ -852,23 +852,25 @@
 <circle cx="1044.8" cy="247.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="1051.4" cy="247.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="1058.0" cy="247.5" r="2.3" fill="#6cb6ff"/>
-<circle cx="1064.6" cy="247.5" r="2.3" fill="#cae8ff"/>
-<circle cx="1071.2" cy="247.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1064.6" cy="247.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="1071.2" cy="247.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="1077.8" cy="247.5" r="2.3" fill="#cae8ff"/>
 <circle cx="1084.4" cy="247.5" r="2.3" fill="#cae8ff"/>
 <circle cx="1091.0" cy="247.5" r="2.3" fill="#cae8ff"/>
-<text x="826" y="266.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB25</text>
+<circle cx="1097.6" cy="247.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1104.2" cy="247.5" r="2.3" fill="#cae8ff"/>
+<text x="826" y="266.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB23</text>
 <circle cx="860.0" cy="263.0" r="2.3" fill="#1c3a5e"/>
 <circle cx="866.6" cy="263.0" r="2.3" fill="#1c3a5e"/>
 <circle cx="873.2" cy="263.0" r="2.3" fill="#1c3a5e"/>
-<circle cx="879.8" cy="263.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="879.8" cy="263.0" r="2.3" fill="#1c3a5e"/>
 <circle cx="886.4" cy="263.0" r="2.3" fill="#1f5fa9"/>
 <circle cx="893.0" cy="263.0" r="2.3" fill="#1f5fa9"/>
 <circle cx="899.6" cy="263.0" r="2.3" fill="#1f5fa9"/>
 <circle cx="906.2" cy="263.0" r="2.3" fill="#1f5fa9"/>
 <circle cx="912.8" cy="263.0" r="2.3" fill="#1f5fa9"/>
-<circle cx="919.4" cy="263.0" r="2.3" fill="#2f81f7"/>
-<circle cx="926.0" cy="263.0" r="2.3" fill="#2f81f7"/>
+<circle cx="919.4" cy="263.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="926.0" cy="263.0" r="2.3" fill="#1f5fa9"/>
 <circle cx="932.6" cy="263.0" r="2.3" fill="#2f81f7"/>
 <circle cx="939.2" cy="263.0" r="2.3" fill="#2f81f7"/>
 <circle cx="945.8" cy="263.0" r="2.3" fill="#2f81f7"/>
@@ -877,20 +879,24 @@
 <circle cx="965.6" cy="263.0" r="2.3" fill="#2f81f7"/>
 <circle cx="972.2" cy="263.0" r="2.3" fill="#2f81f7"/>
 <circle cx="978.8" cy="263.0" r="2.3" fill="#2f81f7"/>
-<circle cx="985.4" cy="263.0" r="2.3" fill="#6cb6ff"/>
-<circle cx="992.0" cy="263.0" r="2.3" fill="#6cb6ff"/>
-<circle cx="998.6" cy="263.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="985.4" cy="263.0" r="2.3" fill="#2f81f7"/>
+<circle cx="992.0" cy="263.0" r="2.3" fill="#2f81f7"/>
+<circle cx="998.6" cy="263.0" r="2.3" fill="#2f81f7"/>
 <circle cx="1005.2" cy="263.0" r="2.3" fill="#6cb6ff"/>
 <circle cx="1011.8" cy="263.0" r="2.3" fill="#6cb6ff"/>
 <circle cx="1018.4" cy="263.0" r="2.3" fill="#6cb6ff"/>
 <circle cx="1025.0" cy="263.0" r="2.3" fill="#6cb6ff"/>
 <circle cx="1031.6" cy="263.0" r="2.3" fill="#6cb6ff"/>
-<circle cx="1038.2" cy="263.0" r="2.3" fill="#cae8ff"/>
-<circle cx="1044.8" cy="263.0" r="2.3" fill="#cae8ff"/>
-<circle cx="1051.4" cy="263.0" r="2.3" fill="#cae8ff"/>
-<circle cx="1058.0" cy="263.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1038.2" cy="263.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1044.8" cy="263.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1051.4" cy="263.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1058.0" cy="263.0" r="2.3" fill="#6cb6ff"/>
 <circle cx="1064.6" cy="263.0" r="2.3" fill="#cae8ff"/>
-<text x="826" y="282.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB27</text>
+<circle cx="1071.2" cy="263.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1077.8" cy="263.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1084.4" cy="263.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1091.0" cy="263.0" r="2.3" fill="#cae8ff"/>
+<text x="826" y="282.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB24</text>
 <circle cx="860.0" cy="278.5" r="2.3" fill="#1c3a5e"/>
 <circle cx="866.6" cy="278.5" r="2.3" fill="#1c3a5e"/>
 <circle cx="873.2" cy="278.5" r="2.3" fill="#1c3a5e"/>
@@ -908,22 +914,18 @@
 <circle cx="952.4" cy="278.5" r="2.3" fill="#2f81f7"/>
 <circle cx="959.0" cy="278.5" r="2.3" fill="#2f81f7"/>
 <circle cx="965.6" cy="278.5" r="2.3" fill="#2f81f7"/>
-<circle cx="972.2" cy="278.5" r="2.3" fill="#2f81f7"/>
-<circle cx="978.8" cy="278.5" r="2.3" fill="#2f81f7"/>
+<circle cx="972.2" cy="278.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="978.8" cy="278.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="985.4" cy="278.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="992.0" cy="278.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="998.6" cy="278.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="1005.2" cy="278.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="1011.8" cy="278.5" r="2.3" fill="#6cb6ff"/>
-<circle cx="1018.4" cy="278.5" r="2.3" fill="#6cb6ff"/>
-<circle cx="1025.0" cy="278.5" r="2.3" fill="#6cb6ff"/>
-<circle cx="1031.6" cy="278.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="1018.4" cy="278.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1025.0" cy="278.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1031.6" cy="278.5" r="2.3" fill="#cae8ff"/>
 <circle cx="1038.2" cy="278.5" r="2.3" fill="#cae8ff"/>
-<circle cx="1044.8" cy="278.5" r="2.3" fill="#cae8ff"/>
-<circle cx="1051.4" cy="278.5" r="2.3" fill="#cae8ff"/>
-<circle cx="1058.0" cy="278.5" r="2.3" fill="#cae8ff"/>
-<circle cx="1064.6" cy="278.5" r="2.3" fill="#cae8ff"/>
-<text x="826" y="297.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB29</text>
+<text x="826" y="297.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB25</text>
 <circle cx="860.0" cy="294.0" r="2.3" fill="#1c3a5e"/>
 <circle cx="866.6" cy="294.0" r="2.3" fill="#1c3a5e"/>
 <circle cx="873.2" cy="294.0" r="2.3" fill="#1c3a5e"/>
@@ -932,7 +934,7 @@
 <circle cx="893.0" cy="294.0" r="2.3" fill="#1f5fa9"/>
 <circle cx="899.6" cy="294.0" r="2.3" fill="#1f5fa9"/>
 <circle cx="906.2" cy="294.0" r="2.3" fill="#1f5fa9"/>
-<circle cx="912.8" cy="294.0" r="2.3" fill="#2f81f7"/>
+<circle cx="912.8" cy="294.0" r="2.3" fill="#1f5fa9"/>
 <circle cx="919.4" cy="294.0" r="2.3" fill="#2f81f7"/>
 <circle cx="926.0" cy="294.0" r="2.3" fill="#2f81f7"/>
 <circle cx="932.6" cy="294.0" r="2.3" fill="#2f81f7"/>
@@ -940,17 +942,23 @@
 <circle cx="945.8" cy="294.0" r="2.3" fill="#2f81f7"/>
 <circle cx="952.4" cy="294.0" r="2.3" fill="#2f81f7"/>
 <circle cx="959.0" cy="294.0" r="2.3" fill="#2f81f7"/>
-<circle cx="965.6" cy="294.0" r="2.3" fill="#6cb6ff"/>
-<circle cx="972.2" cy="294.0" r="2.3" fill="#6cb6ff"/>
-<circle cx="978.8" cy="294.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="965.6" cy="294.0" r="2.3" fill="#2f81f7"/>
+<circle cx="972.2" cy="294.0" r="2.3" fill="#2f81f7"/>
+<circle cx="978.8" cy="294.0" r="2.3" fill="#2f81f7"/>
 <circle cx="985.4" cy="294.0" r="2.3" fill="#6cb6ff"/>
 <circle cx="992.0" cy="294.0" r="2.3" fill="#6cb6ff"/>
 <circle cx="998.6" cy="294.0" r="2.3" fill="#6cb6ff"/>
-<circle cx="1005.2" cy="294.0" r="2.3" fill="#cae8ff"/>
-<circle cx="1011.8" cy="294.0" r="2.3" fill="#cae8ff"/>
-<circle cx="1018.4" cy="294.0" r="2.3" fill="#cae8ff"/>
-<circle cx="1025.0" cy="294.0" r="2.3" fill="#cae8ff"/>
-<text x="826" y="313.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB31</text>
+<circle cx="1005.2" cy="294.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1011.8" cy="294.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1018.4" cy="294.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1025.0" cy="294.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1031.6" cy="294.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1038.2" cy="294.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1044.8" cy="294.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1051.4" cy="294.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1058.0" cy="294.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1064.6" cy="294.0" r="2.3" fill="#cae8ff"/>
+<text x="826" y="313.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB27</text>
 <circle cx="860.0" cy="309.5" r="2.3" fill="#1c3a5e"/>
 <circle cx="866.6" cy="309.5" r="2.3" fill="#1c3a5e"/>
 <circle cx="873.2" cy="309.5" r="2.3" fill="#1c3a5e"/>
@@ -968,16 +976,101 @@
 <circle cx="952.4" cy="309.5" r="2.3" fill="#2f81f7"/>
 <circle cx="959.0" cy="309.5" r="2.3" fill="#2f81f7"/>
 <circle cx="965.6" cy="309.5" r="2.3" fill="#2f81f7"/>
-<circle cx="972.2" cy="309.5" r="2.3" fill="#6cb6ff"/>
-<circle cx="978.8" cy="309.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="972.2" cy="309.5" r="2.3" fill="#2f81f7"/>
+<circle cx="978.8" cy="309.5" r="2.3" fill="#2f81f7"/>
 <circle cx="985.4" cy="309.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="992.0" cy="309.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="998.6" cy="309.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="1005.2" cy="309.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="1011.8" cy="309.5" r="2.3" fill="#6cb6ff"/>
-<circle cx="1018.4" cy="309.5" r="2.3" fill="#cae8ff"/>
-<circle cx="1025.0" cy="309.5" r="2.3" fill="#cae8ff"/>
-<circle cx="1031.6" cy="309.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1018.4" cy="309.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="1025.0" cy="309.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="1031.6" cy="309.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="1038.2" cy="309.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1044.8" cy="309.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1051.4" cy="309.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1058.0" cy="309.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1064.6" cy="309.5" r="2.3" fill="#cae8ff"/>
+<text x="826" y="328.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB29</text>
+<circle cx="860.0" cy="325.0" r="2.3" fill="#1c3a5e"/>
+<circle cx="866.6" cy="325.0" r="2.3" fill="#1c3a5e"/>
+<circle cx="873.2" cy="325.0" r="2.3" fill="#1c3a5e"/>
+<circle cx="879.8" cy="325.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="886.4" cy="325.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="893.0" cy="325.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="899.6" cy="325.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="906.2" cy="325.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="912.8" cy="325.0" r="2.3" fill="#2f81f7"/>
+<circle cx="919.4" cy="325.0" r="2.3" fill="#2f81f7"/>
+<circle cx="926.0" cy="325.0" r="2.3" fill="#2f81f7"/>
+<circle cx="932.6" cy="325.0" r="2.3" fill="#2f81f7"/>
+<circle cx="939.2" cy="325.0" r="2.3" fill="#2f81f7"/>
+<circle cx="945.8" cy="325.0" r="2.3" fill="#2f81f7"/>
+<circle cx="952.4" cy="325.0" r="2.3" fill="#2f81f7"/>
+<circle cx="959.0" cy="325.0" r="2.3" fill="#2f81f7"/>
+<circle cx="965.6" cy="325.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="972.2" cy="325.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="978.8" cy="325.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="985.4" cy="325.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="992.0" cy="325.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="998.6" cy="325.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1005.2" cy="325.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1011.8" cy="325.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1018.4" cy="325.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1025.0" cy="325.0" r="2.3" fill="#cae8ff"/>
+<text x="826" y="344.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB30</text>
+<circle cx="860.0" cy="340.5" r="2.3" fill="#1c3a5e"/>
+<circle cx="866.6" cy="340.5" r="2.3" fill="#1c3a5e"/>
+<circle cx="873.2" cy="340.5" r="2.3" fill="#1f5fa9"/>
+<circle cx="879.8" cy="340.5" r="2.3" fill="#1f5fa9"/>
+<circle cx="886.4" cy="340.5" r="2.3" fill="#1f5fa9"/>
+<circle cx="893.0" cy="340.5" r="2.3" fill="#1f5fa9"/>
+<circle cx="899.6" cy="340.5" r="2.3" fill="#1f5fa9"/>
+<circle cx="906.2" cy="340.5" r="2.3" fill="#2f81f7"/>
+<circle cx="912.8" cy="340.5" r="2.3" fill="#2f81f7"/>
+<circle cx="919.4" cy="340.5" r="2.3" fill="#2f81f7"/>
+<circle cx="926.0" cy="340.5" r="2.3" fill="#2f81f7"/>
+<circle cx="932.6" cy="340.5" r="2.3" fill="#2f81f7"/>
+<circle cx="939.2" cy="340.5" r="2.3" fill="#2f81f7"/>
+<circle cx="945.8" cy="340.5" r="2.3" fill="#2f81f7"/>
+<circle cx="952.4" cy="340.5" r="2.3" fill="#2f81f7"/>
+<circle cx="959.0" cy="340.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="965.6" cy="340.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="972.2" cy="340.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="978.8" cy="340.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="985.4" cy="340.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="992.0" cy="340.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="998.6" cy="340.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1005.2" cy="340.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1011.8" cy="340.5" r="2.3" fill="#cae8ff"/>
+<text x="826" y="359.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB31</text>
+<circle cx="860.0" cy="356.0" r="2.3" fill="#1c3a5e"/>
+<circle cx="866.6" cy="356.0" r="2.3" fill="#1c3a5e"/>
+<circle cx="873.2" cy="356.0" r="2.3" fill="#1c3a5e"/>
+<circle cx="879.8" cy="356.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="886.4" cy="356.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="893.0" cy="356.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="899.6" cy="356.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="906.2" cy="356.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="912.8" cy="356.0" r="2.3" fill="#1f5fa9"/>
+<circle cx="919.4" cy="356.0" r="2.3" fill="#2f81f7"/>
+<circle cx="926.0" cy="356.0" r="2.3" fill="#2f81f7"/>
+<circle cx="932.6" cy="356.0" r="2.3" fill="#2f81f7"/>
+<circle cx="939.2" cy="356.0" r="2.3" fill="#2f81f7"/>
+<circle cx="945.8" cy="356.0" r="2.3" fill="#2f81f7"/>
+<circle cx="952.4" cy="356.0" r="2.3" fill="#2f81f7"/>
+<circle cx="959.0" cy="356.0" r="2.3" fill="#2f81f7"/>
+<circle cx="965.6" cy="356.0" r="2.3" fill="#2f81f7"/>
+<circle cx="972.2" cy="356.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="978.8" cy="356.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="985.4" cy="356.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="992.0" cy="356.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="998.6" cy="356.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1005.2" cy="356.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1011.8" cy="356.0" r="2.3" fill="#6cb6ff"/>
+<circle cx="1018.4" cy="356.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1025.0" cy="356.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1031.6" cy="356.0" r="2.3" fill="#cae8ff"/>
+<circle cx="1038.2" cy="356.0" r="2.3" fill="#cae8ff"/>
 <rect x="70" y="436" width="1060" height="3" rx="1.5" fill="url(#rule)" opacity="0.5"/>
 </svg>
