@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>1,024 Python practice questions · 30 notebooks · beginner → intermediate → advanced</strong><br>
+  <strong>1,073 Python practice questions · 32 notebooks · beginner → intermediate → advanced</strong><br>
   Every question is ranked L1 to L5 and comes with a hint, the expected output, a solution, and how a senior developer would write it.
 </p>
 
@@ -147,13 +147,13 @@ sticks. Finishing slowly beats skimming quickly.
 | NB23 | [Decorators](advanced/NB23-Decorators.ipynb) | 36 | How @ works; writing a decorator; functools.wraps; Decorators that take arguments (factories); stacking order |
 | NB24 | [Context Managers](advanced/NB24-Context-Managers.ipynb) | 28 | The with protocol; Exception info and suppression (returning True); contextlib.contextmanager |
 | NB25 | [Descriptors Metaprogramming](advanced/NB25-Descriptors-Metaprogramming.ipynb) | 32 | Attribute lookup order; __getattr__ vs __getattribute__; __setattr__; Descriptors; How property |
-| NB26 | Type Hints *(coming soon)* | – | Annotating variables; Built-in generics (list[int]); X | None; Callable; collections.abc types; Generics |
+| NB26 | [Type Hints](advanced/NB26-Type-Hints.ipynb) | 34 | Annotating variables; Built-in generics (list[int]); X | None; Callable; collections.abc types; Generics |
 | NB27 | [Concurrency Asyncio](advanced/NB27-Concurrency-Asyncio.ipynb) | 32 | Concurrency vs parallelism; the GIL and the free-threaded build (3.13+); threading.Thread; concurrent.futures |
 | NB28 | Testing Debugging Logging *(coming soon)* | – | assert-based tests; arrange-act-assert; choosing edge cases; unittest; pytest style |
 | NB29 | [Performance Memory](advanced/NB29-Performance-Memory.ipynb) | 26 | Measuring with timeit; Costs of built-in operations; choosing the right container; join vs += for strings; generators to save memory |
 | NB30 | [Networking HTTP APIs](advanced/NB30-Networking-HTTP-APIs.ipynb) | 24 | How HTTP works; Sockets; http.server |
 | NB31 | [Real World Programs](advanced/NB31-Real-World-Programs.ipynb) | 28 | Project layout; argparse (called with an explicit argument list); Config from os.environ and tomllib (3.11+) |
-| NB32 | Advanced Capstone *(coming soon)* | – | System-design-sized problems that bring the advanced topics together |
+| NB32 | [Advanced Capstone](advanced/NB32-Advanced-Capstone.ipynb) | 15 | System-design-sized problems that bring the advanced topics together |
 
 ---
 
