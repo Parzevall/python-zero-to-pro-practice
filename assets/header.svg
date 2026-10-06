@@ -1,20 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 458" width="1200" height="458" role="img" aria-label="1096 Python practice questions across 33 notebooks in three tiers. Each dot is one question, shaded from dim for easy to bright for hard.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 458" width="1200" height="458" role="img" aria-label="1100 Python practice questions across 33 notebooks in three tiers. Each dot is one question, shaded from dim for easy to bright for hard.">
 <defs><linearGradient id="bg" x1="0" y1="0" x2="0.65" y2="1"><stop offset="0%" stop-color="#090d13"/><stop offset="100%" stop-color="#131c2a"/></linearGradient><linearGradient id="rule" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1c3a5e"/><stop offset="100%" stop-color="#cae8ff"/></linearGradient></defs>
 <rect width="1200" height="458" fill="url(#bg)"/>
 <rect x="0" y="0" width="4" height="458" fill="#2f81f7"/>
 <text x="70" y="64" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" letter-spacing="5.5" fill="#6cb6ff">PYTHON · ZERO TO PRO</text>
 <text x="70" y="116" font-family="Georgia,'Times New Roman',serif" font-size="44" font-weight="700" fill="#f0f6fc">From your first print() to asyncio.</text>
-<text x="70" y="148" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="16" fill="#8b949e">1096 questions in 33 notebooks. Every dot is one question, and every solution is run and checked.</text>
+<text x="70" y="148" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="16" fill="#8b949e">1,100 questions in 33 notebooks. Every dot is one question, and every solution is run and checked.</text>
 <circle cx="75" cy="180" r="5" fill="#1c3a5e"/>
 <text x="86" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L1 Extremely Easy · 163</text>
-<circle cx="291" cy="180" r="5" fill="#1f5fa9"/>
-<text x="302" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L2 Easy · 246</text>
-<circle cx="507" cy="180" r="5" fill="#2f81f7"/>
-<text x="518" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L3 Intermediate · 322</text>
-<circle cx="723" cy="180" r="5" fill="#6cb6ff"/>
-<text x="734" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L4 Somewhat Difficult · 237</text>
-<circle cx="939" cy="180" r="5" fill="#cae8ff"/>
-<text x="950" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L5 Hard · 128</text>
+<circle cx="279.70000000000005" cy="180" r="5" fill="#1f5fa9"/>
+<text x="290.70000000000005" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L2 Easy · 246</text>
+<circle cx="415.40000000000003" cy="180" r="5" fill="#2f81f7"/>
+<text x="426.40000000000003" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L3 Intermediate · 322</text>
+<circle cx="606.3000000000001" cy="180" r="5" fill="#6cb6ff"/>
+<text x="617.3000000000001" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L4 Somewhat Difficult · 238</text>
+<circle cx="838.6000000000001" cy="180" r="5" fill="#cae8ff"/>
+<text x="849.6000000000001" y="184" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11.5" fill="#8b949e">L5 Hard · 131</text>
 <text x="70" y="214" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" letter-spacing="1.8" fill="#6e7681">BEGINNER/ · 306</text>
 <text x="70" y="235.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB00</text>
 <circle cx="104.0" cy="232.0" r="2.3" fill="#1c3a5e"/>
@@ -776,7 +776,7 @@
 <circle cx="607.4" cy="402.5" r="2.3" fill="#cae8ff"/>
 <circle cx="614.0" cy="402.5" r="2.3" fill="#cae8ff"/>
 <circle cx="620.6" cy="402.5" r="2.3" fill="#cae8ff"/>
-<text x="826" y="214" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" letter-spacing="1.8" fill="#6e7681">ADVANCED/ · 358</text>
+<text x="826" y="214" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" letter-spacing="1.8" fill="#6e7681">ADVANCED/ · 362</text>
 <text x="826" y="235.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB21</text>
 <circle cx="860.0" cy="232.0" r="2.3" fill="#1c3a5e"/>
 <circle cx="866.6" cy="232.0" r="2.3" fill="#1c3a5e"/>
@@ -1050,6 +1050,10 @@
 <circle cx="992.0" cy="340.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="998.6" cy="340.5" r="2.3" fill="#6cb6ff"/>
 <circle cx="1005.2" cy="340.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="1011.8" cy="340.5" r="2.3" fill="#6cb6ff"/>
+<circle cx="1018.4" cy="340.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1025.0" cy="340.5" r="2.3" fill="#cae8ff"/>
+<circle cx="1031.6" cy="340.5" r="2.3" fill="#cae8ff"/>
 <text x="826" y="359.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#484f58">NB29</text>
 <circle cx="860.0" cy="356.0" r="2.3" fill="#1c3a5e"/>
 <circle cx="866.6" cy="356.0" r="2.3" fill="#1c3a5e"/>

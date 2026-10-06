@@ -2,6 +2,9 @@
 
     python tools/make_header.py
 
+Also writes assets/social-preview.svg; render it to PNG for GitHub with
+    rsvg-convert -w 1280 assets/social-preview.svg -o assets/social-preview.png
+
 One dot per question, shaded by difficulty, one row per notebook, with the
 three tiers side by side. Because it reads the real notebooks, the picture can
 never drift from what's actually in them.
@@ -67,7 +70,7 @@ def build() -> str:
         f'<text x="70" y="116" font-family="{SERIF}" font-size="44" font-weight="700" '
         'fill="#f0f6fc">From your first print() to asyncio.</text>',
         f'<text x="70" y="148" font-family="{SANS}" font-size="16" fill="#8b949e">'
-        f'{total} questions in {notebooks} notebooks. Every dot is one question, and every '
+        f'{total:,} questions in {notebooks} notebooks. Every dot is one question, and every '
         'solution is run and checked.</text>',
     ]
 
@@ -77,7 +80,8 @@ def build() -> str:
         o.append(f'<circle cx="{x + 5}" cy="180" r="5" fill="{RAMP[level]}"/>')
         o.append(f'<text x="{x + 16}" y="184" font-family="{MONO}" font-size="11.5" '
                  f'fill="#8b949e">{LABEL[level]} · {counts[level]}</text>')
-        x += 216
+        # monospace glyphs are ~0.6em wide, so space each entry by its own text
+        x += 16 + len(f"{LABEL[level]} · {counts[level]}") * 6.9 + 30
 
     for col, tier in zip(COL_X, TIERS):
         rows = tiers[tier]
@@ -100,9 +104,65 @@ def build() -> str:
     return "\n".join(o)
 
 
+def build_social() -> str:
+    """The 1280x640 card shown when the repo link is shared. Each notebook is a
+    column of dots, easiest at the bottom, so the three tiers read as a skyline."""
+    tiers = {tier: tier_rows(tier) for tier in TIERS}
+    total = sum(len(lvs) for rows in tiers.values() for _, lvs in rows)
+    notebooks = sum(len(rows) for rows in tiers.values())
+    SW, SH = 1280, 640
+    pitch_x, pitch_y, dot, tier_gap = 15, 10.2, 3.1, 22
+    base_y, x = 560, 660
+
+    o = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SW} {SH}" width="{SW}" height="{SH}">',
+        '<defs><linearGradient id="bg" x1="0" y1="0" x2="0.65" y2="1">'
+        '<stop offset="0%" stop-color="#090d13"/><stop offset="100%" stop-color="#131c2a"/>'
+        '</linearGradient></defs>',
+        f'<rect width="{SW}" height="{SH}" fill="url(#bg)"/>',
+        f'<rect x="0" y="0" width="6" height="{SH}" fill="#2f81f7"/>',
+        f'<text x="72" y="120" font-family="{MONO}" font-size="18" letter-spacing="6" '
+        'fill="#6cb6ff">PYTHON · ZERO TO PRO</text>',
+        f'<text x="72" y="206" font-family="{SERIF}" font-size="64" font-weight="700" '
+        'fill="#f0f6fc">From print()</text>',
+        f'<text x="72" y="282" font-family="{SERIF}" font-size="64" font-weight="700" '
+        'fill="#f0f6fc">to asyncio.</text>',
+        f'<text x="72" y="352" font-family="{SANS}" font-size="26" fill="#c9d1d9">'
+        f'{total:,} practice questions · {notebooks} notebooks</text>',
+        f'<text x="72" y="392" font-family="{SANS}" font-size="20" fill="#8b949e">'
+        'Beginner → intermediate → advanced, ranked L1 to L5</text>',
+    ]
+    tags = ["Hint", "Expected output", "Solution", "Senior dev solution"]
+    tx = 72
+    for tag in tags:
+        w = len(tag) * 8.6 + 28
+        o.append(f'<rect x="{tx}" y="436" width="{w:.0f}" height="34" rx="17" fill="none" '
+                 'stroke="#2f81f7" stroke-opacity="0.55"/>')
+        o.append(f'<text x="{tx + w / 2:.0f}" y="458" font-family="{MONO}" font-size="14" '
+                 f'fill="#6cb6ff" text-anchor="middle">{tag}</text>')
+        tx += w + 10
+    o.append(f'<text x="72" y="560" font-family="{MONO}" font-size="14" fill="#6e7681">'
+             'Every solution run and checked</text>')
+
+    for tier in TIERS:
+        start = x
+        for _, lvs in tiers[tier]:
+            for j, level in enumerate(sorted(lvs)):
+                o.append(f'<circle cx="{x:.1f}" cy="{base_y - j * pitch_y:.1f}" r="{dot}" '
+                         f'fill="{RAMP[level]}"/>')
+            x += pitch_x
+        o.append(f'<text x="{start - dot:.0f}" y="{base_y + 30}" font-family="{MONO}" '
+                 f'font-size="12" letter-spacing="1.5" fill="#6e7681">{tier.upper()}/</text>')
+        x += tier_gap
+    assert x - tier_gap - pitch_x < SW - 40, "skyline runs off the card"
+    o.append("</svg>")
+    return "\n".join(o)
+
+
 if __name__ == "__main__":
-    out = ROOT / "assets" / "header.svg"
-    svg = build()
-    ET.fromstring(svg)  # fail loudly on malformed output
-    out.write_text(svg)
-    print(f"wrote {out} ({len(svg)} bytes)")
+    for name, maker in (("header.svg", build), ("social-preview.svg", build_social)):
+        out = ROOT / "assets" / name
+        svg = maker()
+        ET.fromstring(svg)  # fail loudly on malformed output
+        out.write_text(svg)
+        print(f"wrote {out} ({len(svg)} bytes)")
