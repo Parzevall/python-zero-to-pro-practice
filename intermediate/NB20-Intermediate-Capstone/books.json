@@ -1,0 +1,9 @@
+[
+  {"isbn": "111", "title": "Dune", "author": "Frank Herbert", "year": 1965, "copies": 2},
+  {"isbn": "222", "title": "Neuromancer", "author": "William Gibson", "year": 1984},
+  {"isbn": "333", "title": "Emma", "author": "Jane Austen", "year": 1815},
+  {"isbn": "444", "title": "Persuasion", "author": "Jane Austen", "year": 1817, "copies": 2},
+  {"isbn": "555", "title": "Hyperion", "author": "Dan Simmons", "year": 1989},
+  {"isbn": "111", "title": "Dune (reprint)", "author": "Frank Herbert", "year": 1990},
+  {"isbn": "666", "author": "Anonymous", "year": 2001}
+]

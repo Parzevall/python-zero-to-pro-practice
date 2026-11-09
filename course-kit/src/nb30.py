@@ -1,0 +1,655 @@
+import sys; sys.path.insert(0, "..")
+from builder import Notebook
+
+nb = Notebook("NB30", title="Networking, HTTP & APIs", intro="""
+    Almost every real program talks to another program over a network: a
+    weather service, a payment provider, a browser. This notebook shows what
+    happens underneath: raw **sockets** moving bytes, **HTTP** (methods, status
+    codes, headers, JSON bodies) on top of them, and the standard-library tools
+    that speak it: `urllib.parse` builds and splits URLs, `urllib.request`
+    sends requests, `http.server` answers them.
+
+    **Everything runs on your own computer.** Servers listen on `127.0.0.1`
+    (this machine only) on port `0`, which asks the operating system for any
+    free port, and they run in a background thread (NB27). Every request has a
+    **timeout**, because without one a request can wait forever. Every server
+    is shut down at the end of its cell. Port numbers change on each run, so
+    nothing prints them, and nothing ever touches the internet.
+
+    In real projects you will usually install `requests` or `httpx`. They wrap
+    exactly what you practise here: they build query strings for you
+    (`params=`), encode and decode JSON (`json=`, `.json()`), set sensible
+    defaults, reuse connections, and can retry. Knowing the layer below is what
+    lets you debug them when a request misbehaves. The exercises stay in the
+    standard library.
+
+    Where a question needs a server, the starting code already contains it
+    (a small `Handler` class); read it, then write the client side.
+""")
+
+IMPORTS = """\
+import json
+import threading
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+"""
+
+START = """\
+def start_server(handler_class):
+    server = ThreadingHTTPServer(("127.0.0.1", 0), handler_class)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    return server, "http://127.0.0.1:" + str(server.server_address[1])
+"""
+
+SEND = """\
+    def send_json(self, status, data, headers=None):
+        body = json.dumps(data).encode()
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(body)))
+        for name, value in (headers or {}).items():
+            self.send_header(name, value)
+        self.end_headers()
+        self.wfile.write(body)
+
+    def log_message(self, format, *args):
+        pass  # keep the notebook quiet
+"""
+
+STOP = "server.shutdown()\nserver.server_close()"
+
+
+def served(handler_body, before=""):
+    """Imports, optional shared state, a Handler class, and a running server."""
+    return (IMPORTS + before + "\nclass Handler(BaseHTTPRequestHandler):\n" + handler_body
+            + "\n" + SEND + "\n" + START + "\nserver, base = start_server(Handler)")
+
+
+# ------------------------------------------------------------ Warm-up
+nb.q("Real-life", """
+    Build the full search URL from `base` and `params` with `urllib.parse`
+    (spaces and special characters must be escaped for you) and print it.
+""",
+     given='base = "https://shop.example.com/search"\n'
+           'params = {"q": "red shoes", "size": 42, "sort": "price"}',
+     solution="from urllib.parse import urlencode\n"
+              'print(base + "?" + urlencode(params))')
+
+nb.q("Real-life", """
+    Take `url` apart with `urllib.parse`. Print the host name, the port as a
+    number, the list of `tag` values, and the `page` as a number, one per line.
+""",
+     given='url = "https://api.example.com:8443/v2/search?tag=sale&tag=new&page=3"',
+     solution="from urllib.parse import parse_qs, urlsplit\n"
+              "parts = urlsplit(url)\n"
+              "query = parse_qs(parts.query)\n"
+              "print(parts.hostname)\nprint(parts.port)\n"
+              'print(query["tag"])\nprint(int(query["page"][0]))')
+
+nb.q("Output-match", """
+    A monitoring script logs these HTTP status codes. For each one print the
+    code, its official name from `http.HTTPStatus`, and `True` if it is a
+    server error (5xx, where retrying might help) or `False` otherwise, all on
+    one line.
+""",
+     given="codes = [200, 404, 429, 503]",
+     solution="from http import HTTPStatus\n"
+              "for code in codes:\n"
+              "    print(code, HTTPStatus(code).phrase, code // 100 == 5)")
+
+nb.q("Real-life", """
+    The file name `fish & chips.txt` goes into two URLs: as the last part of a
+    **path**, and as the value of the `q` parameter in a **query string**. Print
+    the escaped path piece, then the whole escaped query string.
+""",
+     given='name = "fish & chips.txt"',
+     solution="from urllib.parse import quote, urlencode\n"
+              "print(quote(name))\n"
+              'print(urlencode({"q": name}))')
+
+nb.q("Build", """
+    Build (but do not send) a `urllib.request.Request` that POSTs `order` as
+    JSON to `url`: the body is the JSON text as bytes, with a `Content-Type`
+    of `application/json`. Print the method, the content type read back from
+    the request, and the body decoded to text.
+""",
+     given='import json\nurl = "http://127.0.0.1/api/orders"\norder = {"item": "apple", "qty": 3}',
+     solution="import urllib.request\n"
+              "request = urllib.request.Request(url, data=json.dumps(order).encode(),\n"
+              '                                 headers={"Content-Type": "application/json"})\n'
+              "print(request.get_method())\n"
+              'print(request.get_header("Content-type"))\n'
+              "print(request.data.decode())")
+
+# ------------------------------------------------------------ Combine
+nb.q("Puzzle", """
+    An HTTP body travels as bytes, and the `Content-Length` header counts
+    **bytes**, not characters. Turn `reply` into JSON text that keeps accented
+    letters as they are (not escaped), then print the number of characters, the
+    number of bytes after encoding to UTF-8, and the header line to send.
+""",
+     given='import json\nreply = {"name": "Café Zoë", "qty": 2}',
+     solution="text = json.dumps(reply, ensure_ascii=False)\n"
+              "body = text.encode(\"utf-8\")\n"
+              'print("characters:", len(text))\n'
+              'print("bytes:", len(body))\n'
+              'print("Content-Length: " + str(len(body)))')
+
+nb.q("Build", """
+    A server is already waiting on `address` (see the starting code). Connect
+    to it with a socket and a 2-second timeout, send the bytes `hello server`,
+    read the reply, and print it decoded. Close the connection and the
+    `listener` at the end.
+""",
+     given="""\
+import socket
+import threading
+
+listener = socket.socket()
+listener.bind(("127.0.0.1", 0))
+listener.listen()
+address = listener.getsockname()
+
+def serve_once():
+    conn, _ = listener.accept()
+    with conn:
+        conn.sendall(conn.recv(1024).upper())
+
+threading.Thread(target=serve_once, daemon=True).start()""",
+     solution="client = socket.create_connection(address, timeout=2)\n"
+              'client.sendall(b"hello server")\n'
+              "print(client.recv(1024).decode())\n"
+              "client.close()\n"
+              "listener.close()")
+
+nb.q("Real-life", """
+    The server at `base` answers `/api/products` with a JSON list. Fetch it
+    with a 2-second timeout, then print how many products came back and their
+    total price. Shut the server down at the end.
+""",
+     given=served("""\
+    def do_GET(self):
+        if self.path == "/api/products":
+            self.send_json(200, [{"name": "pen", "price": 1.5},
+                                 {"name": "notebook", "price": 4.25},
+                                 {"name": "bag", "price": 19.0}])
+        else:
+            self.send_json(404, {"error": "not found"})
+"""),
+     solution="with urllib.request.urlopen(base + \"/api/products\", timeout=2) as response:\n"
+              "    products = json.load(response)\n"
+              'print("Products:", len(products))\n'
+              'print("Total price:", sum(item["price"] for item in products))\n'
+              + STOP)
+
+nb.q("Real-life", """
+    Call `/api/health` and print the status code, the `Content-Type` header,
+    the `X-Api-Version` header and the `status` field from the JSON body, one
+    per line. Shut the server down at the end.
+""",
+     given=served("""\
+    def do_GET(self):
+        self.send_json(200, {"status": "ok"}, {"X-Api-Version": "2.3"})
+"""),
+     solution="with urllib.request.urlopen(base + \"/api/health\", timeout=2) as response:\n"
+              "    print(response.status)\n"
+              '    print(response.headers["Content-Type"])\n'
+              '    print(response.headers["X-Api-Version"])\n'
+              '    print(json.load(response)["status"])\n'
+              + STOP)
+
+nb.q("Build", """
+    POST `order` as JSON to `/api/orders`. The server replies `201 Created`
+    with the stored order, including a new `id`. Print the status code, the
+    new id and the item. Shut the server down at the end.
+""",
+     given=served("""\
+    def do_POST(self):
+        size = int(self.headers["Content-Length"])
+        order = json.loads(self.rfile.read(size))
+        order["id"] = 101
+        self.send_json(201, order)
+""", before='\norder = {"item": "apple", "qty": 3}\n'),
+     solution="request = urllib.request.Request(\n"
+              '    base + "/api/orders", data=json.dumps(order).encode(),\n'
+              '    headers={"Content-Type": "application/json"})\n'
+              "with urllib.request.urlopen(request, timeout=2) as response:\n"
+              "    created = json.load(response)\n"
+              "    print(response.status)\n"
+              'print(created["id"])\n'
+              'print(created["item"])\n'
+              + STOP)
+
+# ------------------------------------------------------------ Small real tasks
+nb.q("Real-life", """
+    A health checker visits three paths. For each one print the path and a
+    verdict: the user's name when the call works, `missing` for a 404 (the
+    client asked for something that does not exist), and `server error, try
+    later` for any 5xx. Shut the server down at the end.
+""",
+     given=served("""\
+    def do_GET(self):
+        if self.path == "/api/users/1":
+            self.send_json(200, {"name": "Ana"})
+        elif self.path == "/api/crash":
+            self.send_json(500, {"error": "boom"})
+        else:
+            self.send_json(404, {"error": "not found"})
+""", before='\npaths = ["/api/users/1", "/api/users/99", "/api/crash"]\n'),
+     solution="for path in paths:\n"
+              "    try:\n"
+              "        with urllib.request.urlopen(base + path, timeout=2) as response:\n"
+              '            verdict = json.load(response)["name"]\n'
+              "    except urllib.error.HTTPError as err:\n"
+              "        if err.code == 404:\n"
+              '            verdict = "missing"\n'
+              "        elif err.code >= 500:\n"
+              '            verdict = "server error, try later"\n'
+              "        else:\n"
+              "            raise\n"
+              '    print(path + ": " + verdict)\n'
+              + STOP)
+
+nb.q("Real-life", """
+    The server at `base` answers `503` for its first two requests and works
+    from the third on. Write `get_with_retry(url, attempts=4, delay=0.01)`: on
+    a 5xx error wait `delay`, then double the wait each time before trying
+    again; any other error, or running out of attempts, is raised. Return the
+    JSON data, the attempt number that worked, and the list of waits used.
+    Call it on `base`, print the three results, and shut the server down.
+""",
+     given=served("""\
+    hits = 0
+
+    def do_GET(self):
+        Handler.hits += 1
+        if Handler.hits <= 2:
+            self.send_json(503, {"error": "busy"})
+        else:
+            self.send_json(200, {"data": "ready"})
+"""),
+     solution="def get_with_retry(url, attempts=4, delay=0.01):\n"
+              "    waits = []\n"
+              "    for attempt in range(1, attempts + 1):\n"
+              "        try:\n"
+              "            with urllib.request.urlopen(url, timeout=2) as response:\n"
+              "                return json.load(response), attempt, waits\n"
+              "        except urllib.error.HTTPError as err:\n"
+              "            if err.code < 500 or attempt == attempts:\n"
+              "                raise\n"
+              "            waits.append(delay * 2 ** (attempt - 1))\n"
+              "            time.sleep(waits[-1])\n"
+              "\n"
+              "data, attempt, waits = get_with_retry(base)\n"
+              "print(data)\n"
+              "print(attempt)\n"
+              "print(waits)\n"
+              + STOP)
+
+nb.q("Real-life", """
+    `/slow` never answers in time, `/fast` answers at once. Write
+    `fetch(path)` that asks for a path with a **0.3-second timeout** and
+    returns the `message` from the JSON, or the text `timed out` when the wait
+    runs out. Print the result for `/fast` and for `/slow`. Then release the
+    stuck handler and shut the server down.
+""",
+     given=served("""\
+    def do_GET(self):
+        if self.path == "/fast":
+            self.send_json(200, {"message": "quick reply"})
+        else:
+            release.wait(5)  # hold the request until the notebook lets go
+""", before="\nrelease = threading.Event()\n"),
+     solution="def fetch(path):\n"
+              "    try:\n"
+              "        with urllib.request.urlopen(base + path, timeout=0.3) as response:\n"
+              '            return json.load(response)["message"]\n'
+              "    except (TimeoutError, urllib.error.URLError):\n"
+              '        return "timed out"\n'
+              "\n"
+              'print(fetch("/fast"))\n'
+              'print(fetch("/slow"))\n'
+              "release.set()\n"
+              + STOP)
+
+nb.q("Real-life", """
+    `/api/items?page=N` returns two items per page plus a `next` field: the
+    next page number, or `null` when there are no more. Follow the pages from
+    page 1 (build each URL with `urlencode`), collect every item, and print how
+    many there are and their names in one list. Shut the server down at the end.
+""",
+     given=served("""\
+    def do_GET(self):
+        parts = urllib.parse.urlsplit(self.path)
+        page = int(urllib.parse.parse_qs(parts.query).get("page", ["1"])[0])
+        start = (page - 1) * 2
+        more = start + 2 < len(ITEMS)
+        self.send_json(200, {"items": ITEMS[start:start + 2], "next": page + 1 if more else None})
+""", before='\nITEMS = ["pen", "ink", "pad", "tape", "glue"]\n'),
+     solution="names = []\n"
+              "page = 1\n"
+              "while page:\n"
+              '    url = base + "/api/items?" + urllib.parse.urlencode({"page": page})\n'
+              "    with urllib.request.urlopen(url, timeout=2) as response:\n"
+              "        data = json.load(response)\n"
+              '    names.extend(data["items"])\n'
+              '    page = data["next"]\n'
+              "print(len(names))\n"
+              "print(names)\n"
+              + STOP)
+
+nb.q("Real-life", """
+    The server at `base` only serves `/api/secret` to callers that send the
+    header `Authorization: Bearer s3cret`; otherwise it answers 401. Call it
+    without the header and print `no token: ` plus the status code, then call
+    it with the header and print `with token: ` plus the `message` from the
+    JSON. Shut the server down at the end.
+""",
+     given=served("""\
+    def do_GET(self):
+        if self.headers.get("Authorization") == "Bearer s3cret":
+            self.send_json(200, {"message": "the vault code is 1234"})
+        else:
+            self.send_json(401, {"error": "unauthorized"}, {"WWW-Authenticate": "Bearer"})
+"""),
+     solution='url = base + "/api/secret"\n'
+              "try:\n"
+              "    urllib.request.urlopen(url, timeout=2)\n"
+              "except urllib.error.HTTPError as err:\n"
+              '    print("no token:", err.code)\n'
+              'request = urllib.request.Request(url, headers={"Authorization": "Bearer s3cret"})\n'
+              "with urllib.request.urlopen(request, timeout=2) as response:\n"
+              '    print("with token:", json.load(response)["message"])\n'
+              + STOP)
+
+# ------------------------------------------------------------ Puzzles & builds
+nb.q("Puzzle", """
+    This is what a server really receives, as text. Parse `raw` by hand:
+    print the method, the path without its query, the query as a dict of
+    single values, then every header as `name=value` with lower-case names in
+    alphabetical order, then the `item` from the JSON body, and finally
+    whether the `Content-Length` header equals the real size of the body in
+    bytes. Lines of an HTTP message end in `\\r\\n`, and a blank line separates
+    the headers from the body.
+""",
+     given='raw = ("POST /api/orders?id=7&rush=yes HTTP/1.1\\r\\n"\n'
+           '       "Host: shop.example.com\\r\\n"\n'
+           '       "Content-Type: application/json\\r\\n"\n'
+           '       "Content-Length: 16\\r\\n"\n'
+           '       "\\r\\n"\n'
+           '       \'{"item": "pear"}\')\n'
+           "import json\nfrom urllib.parse import parse_qs, urlsplit",
+     solution='head, _, body = raw.partition("\\r\\n\\r\\n")\n'
+              'lines = head.split("\\r\\n")\n'
+              'method, target, version = lines[0].split(" ")\n'
+              "parts = urlsplit(target)\n"
+              "query = {key: values[0] for key, values in parse_qs(parts.query).items()}\n"
+              "headers = {}\n"
+              "for line in lines[1:]:\n"
+              '    name, _, value = line.partition(": ")\n'
+              "    headers[name.lower()] = value\n"
+              "print(method)\n"
+              "print(parts.path)\n"
+              "print(query)\n"
+              "for name in sorted(headers):\n"
+              '    print(name + "=" + headers[name])\n'
+              'print(json.loads(body)["item"])\n'
+              'print(int(headers["content-length"]) == len(body.encode()))')
+
+nb.q("Build", """
+    Write your own tiny web server. A `Handler` answers `GET /hello` with
+    status 200, content type `text/plain` and the body `hello`; any other GET
+    path with a 404 (`self.send_error(404)`). Give it a `log_message` that
+    does nothing, and start it on `127.0.0.1` with port `0` in a thread. Then,
+    with a timeout, print the status and body for `/hello`, the status for
+    `/nope`, and the status of a `DELETE` to `/hello` (your handler has no
+    `do_DELETE`, so the server itself must answer). Shut the server down.
+""",
+     given=IMPORTS,
+     solution="class Handler(BaseHTTPRequestHandler):\n"
+              "    def do_GET(self):\n"
+              '        if self.path == "/hello":\n'
+              '            body = b"hello"\n'
+              "            self.send_response(200)\n"
+              '            self.send_header("Content-Type", "text/plain")\n'
+              '            self.send_header("Content-Length", str(len(body)))\n'
+              "            self.end_headers()\n"
+              "            self.wfile.write(body)\n"
+              "        else:\n"
+              "            self.send_error(404)\n"
+              "\n"
+              "    def log_message(self, format, *args):\n"
+              "        pass\n"
+              "\n"
+              'server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)\n'
+              "threading.Thread(target=server.serve_forever, daemon=True).start()\n"
+              'base = "http://127.0.0.1:" + str(server.server_address[1])\n'
+              "\n"
+              'with urllib.request.urlopen(base + "/hello", timeout=2) as response:\n'
+              "    print(response.status, response.read().decode())\n"
+              "\n"
+              "def status_of(request):\n"
+              "    try:\n"
+              "        with urllib.request.urlopen(request, timeout=2) as response:\n"
+              "            return response.status\n"
+              "    except urllib.error.HTTPError as err:\n"
+              "        return err.code\n"
+              "\n"
+              'print(status_of(base + "/nope"))\n'
+              'print(status_of(urllib.request.Request(base + "/hello", method="DELETE")))\n'
+              + STOP)
+
+nb.q("Puzzle", """
+    Invent a text protocol over a raw socket: one command per line, one reply
+    per line. `SET key value` replies `OK`, `GET key` replies the value or
+    `NOT FOUND`, `QUIT` replies `BYE` and ends the conversation. Write
+    `serve_once()` that accepts a single client on `listener` and keeps its
+    own dict (use `conn.makefile("rw")` to read and write lines, and flush
+    after replying), start it in a thread, then connect as the client with a
+    2-second timeout and send every command in `commands`, printing each
+    command and its reply like `GET color -> blue`. Close the listener at the end.
+""",
+     given="""\
+import socket
+import threading
+
+listener = socket.socket()
+listener.bind(("127.0.0.1", 0))
+listener.listen()
+address = listener.getsockname()
+
+commands = ["SET color blue", "GET color", "GET size", "QUIT"]""",
+     solution="def serve_once():\n"
+              "    conn, _ = listener.accept()\n"
+              '    with conn, conn.makefile("rw", encoding="utf-8", newline="\\n") as stream:\n'
+              "        store = {}\n"
+              "        for line in stream:\n"
+              "            command, _, rest = line.strip().partition(\" \")\n"
+              '            if command == "SET":\n'
+              '                key, _, value = rest.partition(" ")\n'
+              "                store[key] = value\n"
+              '                reply = "OK"\n'
+              '            elif command == "GET":\n'
+              '                reply = store.get(rest, "NOT FOUND")\n'
+              "            else:\n"
+              '                reply = "BYE"\n'
+              '            stream.write(reply + "\\n")\n'
+              "            stream.flush()\n"
+              '            if reply == "BYE":\n'
+              "                break\n"
+              "\n"
+              "threading.Thread(target=serve_once, daemon=True).start()\n"
+              "client = socket.create_connection(address, timeout=2)\n"
+              'with client, client.makefile("rw", encoding="utf-8", newline="\\n") as stream:\n'
+              "    for command in commands:\n"
+              '        stream.write(command + "\\n")\n'
+              "        stream.flush()\n"
+              '        print(command, "->", stream.readline().strip())\n'
+              "listener.close()")
+
+nb.q("Real-life", """
+    A dashboard needs the names of items 1 to 5 from `/api/items/N`. Each
+    request takes about 0.2 seconds on the server, so fetching them one by one
+    would take a full second. Fetch them concurrently with a
+    `ThreadPoolExecutor` of 5 workers and a request timeout, and print the
+    names in id order. Then print `True` if the whole thing took under 0.8
+    seconds. Shut the server down at the end.
+""",
+     given=served("""\
+    def do_GET(self):
+        time.sleep(0.2)
+        number = int(self.path.rsplit("/", 1)[1])
+        self.send_json(200, {"id": number, "name": NAMES[number - 1]})
+""", before='\nNAMES = ["pen", "ink", "pad", "tape", "glue"]\n'),
+     solution="from concurrent.futures import ThreadPoolExecutor\n"
+              "import time\n"
+              "\n"
+              "def fetch_name(number):\n"
+              '    with urllib.request.urlopen(base + "/api/items/" + str(number), timeout=2) as response:\n'
+              '        return json.load(response)["name"]\n'
+              "\n"
+              "started = time.perf_counter()\n"
+              "with ThreadPoolExecutor(max_workers=5) as pool:\n"
+              "    names = list(pool.map(fetch_name, range(1, 6)))\n"
+              "elapsed = time.perf_counter() - started\n"
+              "print(names)\n"
+              "print(elapsed < 0.8)\n"
+              + STOP)
+
+# ------------------------------------------------------------ Q20 project
+nb.project("Todo Service", story="""
+    You are building a tiny REST service for a to-do app, and a client to talk
+    to it, both inside this notebook. `GET /todos` lists, `GET /todos/<id>`
+    reads one, `POST /todos` creates (JSON body with a `title`), and
+    `DELETE /todos/<id>` removes. Each step builds on the one before. The
+    server keeps its data in the `todos` dictionary.
+""",
+     given=IMPORTS + """
+todos = {}  # id -> {"id": ..., "title": ..., "done": False}
+
+def send_json(handler, status, data):
+    body = json.dumps(data).encode()
+    handler.send_response(status)
+    handler.send_header("Content-Type", "application/json")
+    handler.send_header("Content-Length", str(len(body)))
+    handler.end_headers()
+    handler.wfile.write(body)
+
+""" + START,
+     steps=[
+         ("Write `TodoHandler(BaseHTTPRequestHandler)` with a `do_GET`: `/todos` "
+          "replies 200 with the list of todos ordered by id, `/todos/<id>` replies 200 "
+          "with that todo, and anything unknown (including an id that does not exist) "
+          'replies 404 with `{"error": "not found"}`. Use `send_json(self, ...)` and a '
+          "silent `log_message`. Start it with `start_server` and print whether `base` "
+          "starts with `http://127.0.0.1:`.",
+          "class TodoHandler(BaseHTTPRequestHandler):\n"
+          "    def do_GET(self):\n"
+          '        if self.path == "/todos":\n'
+          "            send_json(self, 200, [todos[key] for key in sorted(todos)])\n"
+          '        elif self.path.startswith("/todos/"):\n'
+          '            todo_id = self.path.removeprefix("/todos/")\n'
+          "            if todo_id.isdigit() and int(todo_id) in todos:\n"
+          "                send_json(self, 200, todos[int(todo_id)])\n"
+          "            else:\n"
+          '                send_json(self, 404, {"error": "not found"})\n'
+          "        else:\n"
+          '            send_json(self, 404, {"error": "not found"})\n'
+          "\n"
+          "    def log_message(self, format, *args):\n"
+          "        pass\n"
+          "\n"
+          "server, base = start_server(TodoHandler)\n"
+          'print(base.startswith("http://127.0.0.1:"))'),
+         ("Write the client helper `call(method, path, body=None)`. It sends JSON "
+          "(when there is a body) to `base + path` with a 2-second timeout and returns "
+          "`(status, data)`, where `data` is the decoded JSON reply or `None` when the "
+          "reply is empty. A 4xx or 5xx must not crash it: it returns that status and "
+          "the error body instead. Print `call(\"GET\", \"/todos\")` and "
+          "`call(\"GET\", \"/todos/5\")`.",
+          "def call(method, path, body=None):\n"
+          "    data = json.dumps(body).encode() if body is not None else None\n"
+          "    request = urllib.request.Request(base + path, data=data, method=method,\n"
+          '                                     headers={"Content-Type": "application/json"})\n'
+          "    try:\n"
+          "        with urllib.request.urlopen(request, timeout=2) as response:\n"
+          "            status, raw = response.status, response.read()\n"
+          "    except urllib.error.HTTPError as err:\n"
+          "        status, raw = err.code, err.read()\n"
+          "    return status, (json.loads(raw) if raw else None)\n"
+          "\n"
+          'print(call("GET", "/todos"))\n'
+          'print(call("GET", "/todos/5"))'),
+         ("The server cannot create or delete yet. Make `WriteHandler(TodoHandler)` "
+          "that adds `do_POST` and `do_DELETE`. `POST /todos` reads the JSON body; if "
+          "it has no non-empty `title` reply 400 with `{\"error\": \"title required\"}`, "
+          "otherwise store `{\"id\": new_id, \"title\": ..., \"done\": False}` (the new id "
+          "is one more than the largest id so far) and reply 201 with it. `DELETE "
+          "/todos/<id>` removes the todo and replies 204 with no body, or 404 if it does "
+          "not exist. Shut the old server down, start one with `WriteHandler`, and "
+          "print whether the new `base` starts with `http://127.0.0.1:`.",
+          "class WriteHandler(TodoHandler):\n"
+          "    def do_POST(self):\n"
+          '        size = int(self.headers.get("Content-Length", 0))\n'
+          "        try:\n"
+          "            payload = json.loads(self.rfile.read(size))\n"
+          "        except json.JSONDecodeError:\n"
+          "            payload = {}\n"
+          '        title = payload.get("title") if isinstance(payload, dict) else None\n'
+          "        if not title:\n"
+          '            send_json(self, 400, {"error": "title required"})\n'
+          "            return\n"
+          "        new_id = max(todos, default=0) + 1\n"
+          '        todos[new_id] = {"id": new_id, "title": title, "done": False}\n'
+          "        send_json(self, 201, todos[new_id])\n"
+          "\n"
+          "    def do_DELETE(self):\n"
+          '        todo_id = self.path.removeprefix("/todos/")\n'
+          "        if todo_id.isdigit() and int(todo_id) in todos:\n"
+          "            del todos[int(todo_id)]\n"
+          "            self.send_response(204)\n"
+          '            self.send_header("Content-Length", "0")\n'
+          "            self.end_headers()\n"
+          "        else:\n"
+          '            send_json(self, 404, {"error": "not found"})\n'
+          "\n"
+          "server.shutdown()\n"
+          "server.server_close()\n"
+          "server, base = start_server(WriteHandler)\n"
+          'print(base.startswith("http://127.0.0.1:"))'),
+         ("Exercise it through `call`. Create `Buy milk` and `Walk dog`, printing "
+          "each status and new id. Try a POST with an empty body object `{}` and "
+          "print its status and error. Delete todo 1 and print the status, delete it "
+          "again and print that status, then print the titles that are left. Keep "
+          "each status in a variable; you need them next.",
+          'first_status, first = call("POST", "/todos", {"title": "Buy milk"})\n'
+          'second_status, second = call("POST", "/todos", {"title": "Walk dog"})\n'
+          'print(first_status, first["id"])\n'
+          'print(second_status, second["id"])\n'
+          'bad_status, bad = call("POST", "/todos", {})\n'
+          'print(bad_status, bad["error"])\n'
+          'delete_status, _ = call("DELETE", "/todos/1")\n'
+          'again_status, _ = call("DELETE", "/todos/1")\n'
+          "print(delete_status)\n"
+          "print(again_status)\n"
+          '_, remaining = call("GET", "/todos")\n'
+          'print([todo["title"] for todo in remaining])'),
+         ("Wrap up. Using the statuses from the last step, count the successful "
+          "creates (201) and the rejected requests (any 4xx among the bad POST and "
+          "the repeated DELETE). Print `2 created, 2 rejected, 1 left` built from "
+          "those numbers and the list you fetched, then shut the server down and "
+          "print `server stopped`.",
+          "statuses = [first_status, second_status, bad_status, again_status]\n"
+          "created = statuses.count(201)\n"
+          "rejected = len([status for status in statuses if 400 <= status < 500])\n"
+          'print(str(created) + " created, " + str(rejected) + " rejected, " '
+          '+ str(len(remaining)) + " left")\n'
+          "server.shutdown()\n"
+          "server.server_close()\n"
+          'print("server stopped")'),
+     ])
+
+nb.build()

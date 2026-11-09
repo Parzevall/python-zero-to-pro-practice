@@ -1,0 +1,12 @@
+id,customer,sku,qty,price,currency
+1001,ana,kb-01,2,45.50,USD
+1002,Bo ,ms-02,1,19.99,EUR
+1003,cy,kb-01,abc,45.50,USD
+1004,dee,mn-03,1,210.00,GBP
+1005,ana,ms-02,3,19.99,USD
+1006,,kb-01,1,45.50,USD
+1007,eli,hd-04,-2,89.00,USD
+1008,bo,mn-03,2,210.00,EUR
+1009,fay,kb-01,1,45.50,JPY
+1010,ana,hd-04,1,89.00,USD
+1011,gus,cb-05,1,4.50,USD
